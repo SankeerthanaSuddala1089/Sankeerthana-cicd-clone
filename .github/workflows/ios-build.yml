@@ -1,0 +1,64 @@
+name: 'iOS Build'
+
+on:
+  workflow_call:
+    # inputs:
+    #   environment:
+    #     required: true
+    #     type: string
+
+jobs:
+  build-ios:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          # cache: "yarn"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup Ruby (bundle)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Install Cocoapods
+        run: sudo gem install cocoapods -v '1.10.1'
+
+      - name: Restore Pods cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install pod dependencies
+        run: cd ios && pod install && cd ..
+
+      # - name: Use Xcode 13
+      #   run: sudo xcode-select --switch /Applications/Xcode_13.app/Contents/Developer
+
+      - name: Build iOS (Release)
+        run: xterm -e bash -l -c 'npm run ios --mode=release'
+
+      - name: Login to Docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build  and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: divyapagidipally375/connect-demo-ios

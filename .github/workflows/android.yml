@@ -1,0 +1,80 @@
+name: 'Android Build'
+
+on:
+  workflow_call:
+    # inputs:
+    #   environment:
+    #     required: true
+    #     type: string
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile --network-timeout 300000
+      - name: Make Gradlew Executable
+        run: cd android && chmod +x ./gradlew
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew clean && ./gradlew app:assembleRelease
+      # - name: Use Node.js 14
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 14
+      #     # cache: "yarn"
+
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Install Gradle
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install gradle
+
+      # - name: Cache Gradle Wrapper
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.gradle/wrapper
+      #     key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      # - name: Cache Gradle Dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.gradle/caches
+      #     key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gradle-caches-
+
+      # - name: Set up Java
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     distribution: 'adopt'
+      #     java-version: '11'
+
+      # - name: Make Gradlew Executable
+      #   run: cd android && chmod +x ./gradlew
+
+      # - name: Use Gradle 7
+      #   run: echo "gradle.version=8.5" > android/gradle/wrapper/gradle-wrapper.properties
+
+      # # - name: Build Android
+      # #   run: bash -l -c 'cd android && ./gradlew bundleRelease'
+
+      # - name: Build Android (Release)
+      #   run: xterm -e bash -l -c 'npm run android --mode=release'
+
+      # - name: Login to Docker hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # - name: Build  and push Docker image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: divyapagidipally375/connect-demo-android
