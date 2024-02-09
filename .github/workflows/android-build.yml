@@ -31,7 +31,7 @@ jobs:
         run: cd android && chmod +x ./gradlew
       - name: Build Android Release
         run: |
-          cd android && gradle init && gradle wrappe
+          cd android && gradle init && gradle wrapper && npm run android
 
       # - name: Install Gradle
       #   run: |
