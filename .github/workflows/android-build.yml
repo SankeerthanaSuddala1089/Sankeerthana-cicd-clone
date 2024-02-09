@@ -21,11 +21,11 @@ jobs:
       - name: Build Android Release
         run: |
           cd android && ./gradlew clean && ./gradlew app:assembleRelease
-      # - name: Use Node.js 14
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 14
-      #     # cache: "yarn"
+      - name: Use Node.js 14
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          # cache: "yarn"
 
       # - name: Install dependencies
       #   run: npm install
