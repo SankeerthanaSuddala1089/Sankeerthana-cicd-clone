@@ -2,11 +2,15 @@ name: 'Android Build'
 
 on:
   workflow_call:
-    # inputs:
-    #   environment:
-    #     required: true
-    #     type: string
-
+    inputs:
+      environment:
+        required: true
+        type: string
+  secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
 jobs:
   build-android:
     runs-on: ubuntu-latest

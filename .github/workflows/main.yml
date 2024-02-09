@@ -35,11 +35,11 @@ jobs:
     #   run: npm test
 
     build-android:
-    needs: install-and-test
-    uses: ./.github/workflows/android-build.yml
-    with:
-      environment: release
-    secrets: inherit
+      needs: install-and-test
+      uses: ./.github/workflows/android-build.yml
+      with:
+        environment: release
+      secrets: inherit
 
   # build-ios:
   #   needs: install-and-test
