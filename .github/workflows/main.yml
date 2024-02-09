@@ -34,9 +34,12 @@ jobs:
     # - name: Run Unit tests
     #   run: npm test
 
-  build-android:
+    build-android:
     needs: install-and-test
     uses: ./.github/workflows/android-build.yml
+    with:
+      environment: release
+    secrets: inherit
 
   # build-ios:
   #   needs: install-and-test

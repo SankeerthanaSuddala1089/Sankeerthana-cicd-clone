@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-android:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +44,6 @@ jobs:
 
       # - name: Build Android
       #   run: bash -l -c 'cd android && ./gradlew bundleRelease'
-
       - name: Login to Docker hub
         uses: docker/login-action@v3
         with:
