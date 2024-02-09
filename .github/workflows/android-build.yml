@@ -1,4 +1,85 @@
-# name: "Android Build"
+# # name: "Android Build"
+
+# # on:
+# #   workflow_call:
+# #     # inputs:
+# #     #   environment:
+# #     #     required: true
+# #     #     type: string
+
+# # jobs:
+# #   build-android:
+
+# #     runs-on: ubuntu-latest
+
+# #     steps:
+# #       - uses: actions/checkout@v2
+
+# #       - name: Use Node.js 21.6.0
+# #         uses: actions/setup-node@v3
+# #         with:
+# #           node-version: 21.6.0
+# #           cache: "npm"
+
+# #       - name: Install dependencies
+# #         run: npm install
+      
+# #       - name: Install Gradle
+# #         run: |
+# #           sudo apt-get update
+# #           sudo apt-get install gradle
+
+
+# #       - name: Cache Gradle Wrapper
+# #         uses: actions/cache@v2
+# #         with:
+# #           path: ~/.gradle/wrapper
+# #           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+# #       - name: Cache Gradle Dependencies
+# #         uses: actions/cache@v2
+# #         with:
+# #           path: ~/.gradle/caches
+# #           key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+# #           restore-keys: |
+# #             ${{ runner.os }}-gradle-caches-
+    
+# #       - name: Set up Java
+# #         uses: actions/setup-java@v2
+# #         with:
+# #           distribution: 'adopt'
+# #           java-version: '11'
+
+# #       - name: Make Gradlew Executable
+# #         run: cd android && chmod +x ./gradlew
+
+# #       # - name: Install brew 
+# #       #   run: sudo apt update && sudo apt-get install build-essential && sudo apt-get install build-essential && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.bashrc && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew doctor
+
+# #       - name: Use Gradle 8.5
+# #         run: echo "gradle.version=8.5" > android/gradle/wrapper/gradle-wrapper.properties
+
+# #       # - name: Build Android
+# #       #   run: bash -l -c 'cd android && ./gradlew bundleRelease'
+
+# #       - name: Build Android Release
+# #         run: |
+# #           cd android && gradle init && gradle wrapper && cd..
+
+# #       - name: Login to Docker hub
+# #         uses: docker/login-action@v2
+# #         with:
+# #           username: ${{ secrets.DOCKERHUB_USERNAME }}
+# #           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+# #       - name: Build  and push Docker image
+# #         uses: docker/build-push-action@v4
+# #         with:
+# #           push: true
+# #           tags: divyapagidipally375/connect-demo-android
+
+
+# name: 'Android Build'
 
 # on:
 #   workflow_call:
@@ -9,32 +90,30 @@
 
 # jobs:
 #   build-android:
-
 #     runs-on: ubuntu-latest
 
 #     steps:
-#       - uses: actions/checkout@v2
-
-#       - name: Use Node.js 21.6.0
+#       - uses: actions/checkout@v3
+#       - name: Set Up JDK
+#         uses: actions/setup-java@v3
+#         with:
+#           distribution: 'zulu'
+#           java-version: '17'
+#           cache: 'gradle'
+#       - name: Use Node.js 14
 #         uses: actions/setup-node@v3
 #         with:
-#           node-version: 21.6.0
-#           cache: "npm"
+#           node-version: 21.6.1
+#           cache: 'npm'
 
 #       - name: Install dependencies
 #         run: npm install
-      
-#       - name: Install Gradle
+#       - name: Make Gradlew Executable
+#         run: cd android && chmod +x ./gradlew
+#       - name: Build Android
+
 #         run: |
-#           sudo apt-get update
-#           sudo apt-get install gradle
-
-
-#       - name: Cache Gradle Wrapper
-#         uses: actions/cache@v2
-#         with:
-#           path: ~/.gradle/wrapper
-#           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+#           cd android && gradle init && gradle wrapper
 
 #       - name: Cache Gradle Dependencies
 #         uses: actions/cache@v2
@@ -43,28 +122,9 @@
 #           key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 #           restore-keys: |
 #             ${{ runner.os }}-gradle-caches-
-    
-#       - name: Set up Java
-#         uses: actions/setup-java@v2
-#         with:
-#           distribution: 'adopt'
-#           java-version: '11'
 
-#       - name: Make Gradlew Executable
-#         run: cd android && chmod +x ./gradlew
-
-#       # - name: Install brew 
-#       #   run: sudo apt update && sudo apt-get install build-essential && sudo apt-get install build-essential && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.bashrc && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew doctor
-
-#       - name: Use Gradle 8.5
-#         run: echo "gradle.version=8.5" > android/gradle/wrapper/gradle-wrapper.properties
-
-#       # - name: Build Android
-#       #   run: bash -l -c 'cd android && ./gradlew bundleRelease'
-
-#       - name: Build Android Release
-#         run: |
-#           cd android && gradle init && gradle wrapper && cd..
+#       - name: Build Android
+#         run: bash -l -c 'cd android && ./gradlew bundleRelease'
 
 #       - name: Login to Docker hub
 #         uses: docker/login-action@v2
@@ -76,64 +136,4 @@
 #         uses: docker/build-push-action@v4
 #         with:
 #           push: true
-#           tags: divyapagidipally375/connect-demo-android
-
-
-name: 'Android Build'
-
-on:
-  workflow_call:
-    # inputs:
-    #   environment:
-    #     required: true
-    #     type: string
-
-jobs:
-  build-android:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set Up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          cache: 'gradle'
-      - name: Use Node.js 14
-        uses: actions/setup-node@v3
-        with:
-          node-version: 21.6.1
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-      - name: Make Gradlew Executable
-        run: cd android && chmod +x ./gradlew
-      - name: Build Android
-
-        run: |
-          cd android && gradle init && gradle wrapper
-
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-caches-
-
-      - name: Build Android
-        run: bash -l -c 'cd android && ./gradlew bundleRelease'
-
-      - name: Login to Docker hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build  and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: sankeerthanasuddala/connect-demo-android
+#           tags: sankeerthanasuddala/connect-demo-android
