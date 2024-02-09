@@ -19,19 +19,19 @@ jobs:
           distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '17'
           cache: 'gradle'
+      - name: Use Node.js 14
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21.6.1
+          # cache: "yarn"
+
+      - name: Install dependencies
+        run: npm install
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
       - name: Build Android Release
         run: |
-          cd android && gradle init && gradle wrapper
-      - name: Use Node.js 14
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          # cache: "yarn"
-
-      # - name: Install dependencies
-      #   run: npm install
+          cd android && gradle init && gradle wrappe
 
       # - name: Install Gradle
       #   run: |
