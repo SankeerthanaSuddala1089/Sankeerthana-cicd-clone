@@ -23,7 +23,9 @@ jobs:
         run: cd android && chmod +x ./gradlew
       - name: Build Android Release
         run: |
-          cd android && ./gradlew clean && ./gradlew app:assembleRelease
+                - name: Build Android Release
+        run: |
+          cd android && gradle init && gradle wrapper
       - name: Use Node.js 14
         uses: actions/setup-node@v3
         with:
