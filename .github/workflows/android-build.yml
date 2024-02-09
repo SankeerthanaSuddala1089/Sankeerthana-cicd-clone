@@ -29,13 +29,18 @@ jobs:
         run: npm install
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
-      - name: Build Android Release
+      - name: Build Android
+
         run: |
           cd android && gradle init && gradle wrapper
-      - name: npm run start
-        run: npm run start
-      - name: npm run android
-        run: npm run android
+      #  - name: Build application
+      #     run: |
+      #          cd ./packages/app-mobile/android
+      #          ./gradlew assembleDebug
+      #   # - name: npm run start
+      #   run: npm run start
+      # - name: npm run android
+      #   run: npm run android
       # - name: Install Gradle
       #   run: |
       #     sudo apt-get update
@@ -67,8 +72,8 @@ jobs:
       # - name: Use Gradle 7
       #   run: echo "gradle.version=8.5" > android/gradle/wrapper/gradle-wrapper.properties
 
-      # # - name: Build Android
-      # #   run: bash -l -c 'cd android && ./gradlew bundleRelease'
+      - name: Build Android
+        run: bash -l -c 'cd android && ./gradlew bundleRelease'
 
       # - name: Build Android (Release)
       #   run: xterm -e bash -l -c 'npm run android --mode=release'
