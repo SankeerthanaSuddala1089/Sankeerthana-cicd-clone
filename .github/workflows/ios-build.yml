@@ -46,7 +46,7 @@ jobs:
         run: npm run ios
 
       - name: Build ios terminal
-        run: bash -l -c 'cd ios '
+        run: bash -l -c 'cd ios && npm run ios'
       
       - name: Login to Docker hub
         uses: docker/login-action@v2
