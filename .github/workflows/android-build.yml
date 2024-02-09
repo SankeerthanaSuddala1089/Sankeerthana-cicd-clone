@@ -13,9 +13,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile --network-timeout 300000
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+          cache: 'gradle'
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
       - name: Build Android Release
