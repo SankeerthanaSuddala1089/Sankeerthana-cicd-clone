@@ -37,7 +37,9 @@ jobs:
   build-android:
     needs: install-and-test
     uses: ./.github/workflows/android-build.yml
-    secrets: inherit
-  # build-ios:
+    secrets: 
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    # build-ios:
   #   needs: install-and-test
   #   uses: ./.github/workflows/ios-build.yml
